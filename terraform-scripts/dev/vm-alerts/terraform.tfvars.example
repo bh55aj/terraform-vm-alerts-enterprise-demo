@@ -1,0 +1,46 @@
+# ---------------------------------------------------------------------------
+# terraform-scripts/dev/vm-alerts/terraform.tfvars.example
+#
+# Copy this file to terraform.tfvars and populate with real values.
+# In enterprise pipelines, these values are injected via:
+#   - Azure DevOps Variable Groups
+#   - Pipeline secure files
+#   - Output variables from the action_group pipeline stage
+#
+# Do NOT commit terraform.tfvars to source control.
+# ---------------------------------------------------------------------------
+
+resource_group_name = "rg-monitoring-dev"
+
+# action_group_id: Obtained from the action_group deployment output.
+# In pipeline: injected as pipeline variable from action_group stage output.
+# In local run: paste the Action Group resource ID from the Azure portal.
+action_group_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-monitoring-dev/providers/microsoft.insights/actionGroups/ag-vm-alerts-dev"
+
+# VM inventory — one object per VM to be monitored
+# Replace resource_id values with real Azure VM resource IDs
+vms = [
+  {
+      name        = "vm-app-dev-01"
+          resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-app-dev/providers/Microsoft.Compute/virtualMachines/vm-app-dev-01"
+            },
+              {
+                  name        = "vm-app-dev-02"
+                      resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-app-dev/providers/Microsoft.Compute/virtualMachines/vm-app-dev-02"
+                        },
+                          {
+                              name        = "vm-db-dev-01"
+                                  resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-db-dev/providers/Microsoft.Compute/virtualMachines/vm-db-dev-01"
+                                    }
+                                    ]
+
+                                    cpu_threshold = 80
+                                    severity      = 2
+                                    frequency     = "PT5M"
+                                    window_size   = "PT15M"
+
+                                    tags = {
+                                      environment = "dev"
+                                        managed_by  = "terraform"
+                                          team        = "platform-engineering"
+                                          }
