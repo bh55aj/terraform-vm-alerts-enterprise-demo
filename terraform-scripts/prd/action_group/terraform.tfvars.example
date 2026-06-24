@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# terraform-scripts/prd/action_group/terraform.tfvars.example
+#
+# Copy to terraform.tfvars and fill in real PRD values.
+# In a pipeline, these values are injected via Variable Group — never commit
+# a populated terraform.tfvars to source control in production.
+# ---------------------------------------------------------------------------
+
+resource_group_name = "rg-monitoring-prd"
+action_group_name   = "ag-vm-alerts-prd"
+short_name          = "vmalertprd"
+
+email_receivers = [
+  {
+      name          = "PrdOpsTeam"
+          email_address = "ops-prd@yourcompany.com"
+            },
+              {
+                  name          = "PrdOnCall"
+                      email_address = "oncall-prd@yourcompany.com"
+                        }
+                        ]
+
+                        tags = {
+                          environment = "prd"
+                            managed_by  = "terraform"
+                              project     = "vm-alerts"
+                                team        = "platform-engineering"
+                                }
