@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# terraform-scripts/prd/vm-alerts/terraform.tfvars.example
+#
+# PRD VM Alerts configuration example.
+# Copy to terraform.tfvars for local testing.
+# In production pipelines, values are injected via Variable Group.
+# action_group_id is captured from prd/action_group pipeline stage output.
+# ---------------------------------------------------------------------------
+
+resource_group_name = "rg-monitoring-prd"
+
+# Injected from prd/action_group pipeline output at runtime
+action_group_id = "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/rg-monitoring-prd/providers/microsoft.insights/actionGroups/ag-vm-alerts-prd"
+
+cpu_threshold = 75
+severity      = 1
+frequency     = "PT1M"
+window_size   = "PT5M"
+
+vms = [
+  {
+      name        = "vm-app-prd-01"
+          resource_id = "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/rg-app-prd/providers/Microsoft.Compute/virtualMachines/vm-app-prd-01"
+            },
+              {
+                  name        = "vm-app-prd-02"
+                      resource_id = "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/rg-app-prd/providers/Microsoft.Compute/virtualMachines/vm-app-prd-02"
+                        },
+                          {
+                              name        = "vm-db-prd-01"
+                                  resource_id = "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/rg-db-prd/providers/Microsoft.Compute/virtualMachines/vm-db-prd-01"
+                                    }
+                                    ]
+
+                                    tags = {
+                                      environment = "prd"
+                                        managed_by  = "terraform"
+                                          project     = "vm-alerts"
+                                            team        = "platform-engineering"
+                                            }
