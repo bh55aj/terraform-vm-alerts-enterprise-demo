@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# terraform-scripts/dmz/vm-alerts/terraform.tfvars.example
+# ---------------------------------------------------------------------------
+
+resource_group_name = "rg-monitoring-dmz"
+
+# Injected from dmz/action_group pipeline output at runtime
+action_group_id = "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/rg-monitoring-dmz/providers/microsoft.insights/actionGroups/ag-vm-alerts-dmz"
+
+cpu_threshold = 70
+severity      = 1
+frequency     = "PT1M"
+window_size   = "PT5M"
+
+vms = [
+  {
+      name        = "vm-dmz-web-01"
+          resource_id = "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/rg-dmz/providers/Microsoft.Compute/virtualMachines/vm-dmz-web-01"
+            },
+              {
+                  name        = "vm-dmz-proxy-01"
+                      resource_id = "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/rg-dmz/providers/Microsoft.Compute/virtualMachines/vm-dmz-proxy-01"
+                        }
+                        ]
+
+                        tags = {
+                          environment = "dmz"
+                            managed_by  = "terraform"
+                              project     = "vm-alerts"
+                                team        = "platform-engineering"
+                                }
